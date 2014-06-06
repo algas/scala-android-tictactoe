@@ -1,0 +1,16 @@
+<manifest package="com.geishatokyo.tictactoe" xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-sdk android:minSdkVersion="17"></uses-sdk>
+    <application android:label="@string/app_name">
+      <activity 
+          android:label="@string/app_name"
+          android:name=".MainActivity"
+          android:launchMode="singleTop"
+          android:configChanges="orientation|keyboardHidden"
+          android:screenOrientation="portrait">
+        <intent-filter>
+          <action android:name="android.intent.action.MAIN"></action>
+          <category android:name="android.intent.category.LAUNCHER"></category>
+        </intent-filter>
+      </activity>
+    </application>
+</manifest>
