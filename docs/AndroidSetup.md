@@ -34,6 +34,8 @@ brew install android-sdk
 以下の手順で Android SDK パッケージを更新します。
 
 1. (Android SDK Tools) SDK Manager を起動する。
+    - Windows ではスタートメニューから探す。
+    - Mac では android コマンドで起動する。
 2. 以下にチェックを入れる。
     - Tools 以下の Android SDK Tools, Android SDK Platform-tools, Android SDK Build-tools
     - Android 4.4.2 (API 19) 以下の SDK Platform, ARM EABI v7a System Image, Google APIs
@@ -45,8 +47,10 @@ brew install android-sdk
 
 以下の手順で AVD を作成します。
 
-1. (Android SDK Tools) AVD Manager を起動する。
-2. Device Definitions タブから適当な Device を選択する。例えば Nexus 7。
+1. (Android SDK Tools) AVD Manager を起動する。  
+    - Windows ではスタートメニューから探す。
+    - Mac では SDK Manager > Tool から起動する。
+2. Device Definitions タブから適当な Device を選択する。例えば Nexus 7(2012)。
 3. Create AVD をクリックすると Create new Android Virtual Device (AVD) 画面が出る。
 4. 以下のように選択する。
     - AVD Name: 適切な名前をつける
