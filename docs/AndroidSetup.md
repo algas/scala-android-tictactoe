@@ -13,20 +13,33 @@ Android アプリケーション開発のための環境構築を以下の手順
 
 以下の手順で Android SDK をインストールします。
 
-1. 以下のサイトにブラウザでアクセスする。  
+1. 以下のサイトにブラウザでアクセスする。
 http://developer.android.com/sdk/index.html
 2. Download for other platforms を選択する。
 3. SDK Tools Only の Windows の項目にある "installer_r**-windows.exe" をダウンロードする。
 4. ダウンロードしたインストーラを実行して、その指示に従ってインストールを完了する。
-5. 環境変数で ANDROID_HOME を設定する。  
+5. 環境変数で ANDROID_HOME を設定する。
 ANDROID_HOME=C:\Users\ (USER_NAME) \AppData\Local\Android\android-sdk
 
 ### Mac OS X
 
-以下のコマンドで Android SDK をインストールします。  
+以下のコマンドで Android SDK をインストールします。
 
 ```
 brew install android-sdk
+```
+
+### Linux
+
+1. 以下のサイトにブラウザでアクセスする。
+http://developer.android.com/sdk/index.html
+2. Linux版のADT Bundleをダウンロードする。
+3. zip解凍し、適当なディレクトリに置く。
+4. bashrc等に以下の環境変数を設定する。
+
+```
+export PATH=$PATH:$HOME/ (DIR) /adt-bundle-linux-x86_64-20140321/sdk/tools/
+export ANDROID_HOME=$HOME/ (DIR) /adt-bundle-linux-x86_64-20140321/sdk/
 ```
 
 ## Android SDK の更新
@@ -35,7 +48,7 @@ brew install android-sdk
 
 1. (Android SDK Tools) SDK Manager を起動する。
     - Windows ではスタートメニューから探す。
-    - Mac では android コマンドで起動する。
+    - Mac/Linux では android コマンドで起動する。
 2. 以下にチェックを入れる。
     - Tools 以下の Android SDK Tools, Android SDK Platform-tools, Android SDK Build-tools
     - Android 4.4.2 (API 19) 以下の SDK Platform, ARM EABI v7a System Image, Google APIs
@@ -47,9 +60,10 @@ brew install android-sdk
 
 以下の手順で AVD を作成します。
 
-1. (Android SDK Tools) AVD Manager を起動する。  
+1. (Android SDK Tools) AVD Manager を起動する。
     - Windows ではスタートメニューから探す。
     - Mac では SDK Manager > Tool から起動する。
+    - Linux では android avd コマンドで起動する。
 2. Device Definitions タブから適当な Device を選択する。例えば Nexus 7(2012)。
 3. Create AVD をクリックすると Create new Android Virtual Device (AVD) 画面が出る。
 4. 以下のように選択する。
