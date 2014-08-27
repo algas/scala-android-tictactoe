@@ -55,8 +55,8 @@ sbt インタラクティブシェルで以下のコマンドを実行します�
 > android:package
 ```
 
-* ビルド時に zipalign 関連でエラーが出たら読む項目
-Android SDK 23 以上に更新した場合には、以下を実行しましょう。
+* ビルド時に zipalign 関連でエラーが出たら読む項目  
+Android SDK 23 以上に更新した場合には、以下を実行しましょう。  
 https://forums.xamarin.com/discussion/19772/zipalign-error-executing-tool-executable-location-invalid-android-sdk-tools-23
 
 
