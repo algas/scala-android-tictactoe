@@ -21,12 +21,17 @@ class AbstractUI {
   def countUp() {
     gameTurn += 1
   }
+  def clean()
+  {
+    gameTurn = 0
+  }
 }
 
 class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
   val quantum = 100
   var ui: Option[AbstractUI] = None
   var pieces: List[(Int,Int)] = List.empty
+  var isFinish = false
 
   val bluishSilver = new Paint
   bluishSilver.setARGB(255, 255, 255, 255)
@@ -59,12 +64,57 @@ class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
     canvasHeight = h
   }
 
+  def checkFinishImpl(ls: List[List[(Int,Int)]])
+  {
+    if(pieces.length==9)
+    {
+      isFinish = true
+      return
+    }
+    for ( l <- ls )
+    {
+      var containsContents: List[((Int,Int),Int)] = List ( )
+      for ( pair <- l )
+      {
+        if (pieces.zipWithIndex.exists(_._1==pair))
+        {
+          containsContents = (pair,pieces.zipWithIndex.indexWhere(_._1==pair)) :: containsContents
+        }
+      }
+      if(containsContents.length==3)
+      {
+        val h = containsContents.head._2
+        if(containsContents.count(_._2%2==h%2)==3)
+        {
+          isFinish = true
+          return
+        }
+      }
+    }
+  }
+
+  def checkFinish()
+  {
+    val colmun = for(i <- 0 until 3) yield{(for(j <- 0 until 3) yield{(i,j)}).toList}
+    val line = for(i <- 0 until 3) yield{(for(j <- 0 until 3) yield{(j,i)}).toList}
+    val cross = List((for(i <- 0 until 3) yield{(i,i)}).toList ,(for(i <- 0 until 3) yield{(2-i,i)}).toList)
+    checkFinishImpl(colmun.toList ::: line.toList ::: cross)
+  }
+
   def addTouch(x: Int, y: Int){
     val dx = (x - 0) / 200
     val dy = (y - 200) / 200
-    if ((0 <= dx && dx < 3) && (0 <= dy && dy < 3)) {
+    if ((0 <= dx && dx < 3) && (0 <= dy && dy < 3) && !pieces.contains((dx,dy)) && !isFinish)
+    {
       pieces = (dx,dy) :: pieces
+      checkFinish()
       ui.get.countUp()
+    }
+    else if (dx == 3 && dy == 1)
+    {
+      pieces = List ( )
+      isFinish = false
+      ui.get.clean()
     }
   }
 
@@ -79,9 +129,9 @@ class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
 
   def drawTile(g: Canvas) {
     val textPaint = new Paint
-    textPaint.setARGB(255, 255, 255, 255)
+    textPaint.setARGB(255 ,255, if(isFinish){0}else{255}, if(isFinish){0}else{255})
     textPaint.setTextSize(48)
-    g drawText ("OX GAME", 160, 100, textPaint)
+    g drawText (if(isFinish){"FINISH!"}else{"OX GAME"}, 160, 100, textPaint)
     g drawText (ui.get.turn.toString, 200, 150, textPaint) // debugging
     for (j <- 0 until 3){
       for (i <- 0 until 3) {
@@ -118,11 +168,22 @@ class MainThread(holder: SurfaceHolder, context: Context) extends Thread {
     }
   }
 
+  def drawReset(g: Canvas, dx: Int,dy: Int)
+  {
+    val textPaint = new Paint
+    textPaint.setARGB(255 , 127, 127, 127)
+    textPaint.setTextSize(48)
+    g drawRect (3*200+10, 200+200+10, 3*200+190, 200+200+190, bluishSilver)
+    g drawText ("RESET", 10 + 3 * 200, 190 + 2 * 200 , textPaint)
+  }
+
   def onPaint(g: Canvas) {
     drawTile(g)
     for (((x,y), i) <- pieces.reverse.zipWithIndex){
       drawMark(g, i, x, y)
     }
+    drawReset(g, 3, 1)
+    drawMark(g, ui.get.turn, 3, 2)
   }
 
 }
